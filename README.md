@@ -178,8 +178,11 @@
 - (n-1) with Teams
 - (n-1) with Seasons
 
-
 </details>
+
+![Formula1DB drawio](https://github.com/Alexjav129/Formula1DB-Bautista/assets/78135846/b13817c9-9988-40ae-bb5f-5f4bf0c81326)
+
+
 
 <br><br><br>
 

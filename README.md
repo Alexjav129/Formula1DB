@@ -31,4 +31,136 @@
 
 <br>
 
-# Diagrama E-R
+# E-R Diagram
+
+Tables and Relationships
+### 1️⃣ Drivers:
+- driver_id (PK)
+- first_name
+- last_name
+- nationality
+- date_of_birth
+- team_id (FK)
+
+**Relationships:**
+- (1-n) with Teams
+- (1-n) with Results
+- (1-n) with Fastest_Laps
+- (1-n) with Qualifying
+- (1-n) with Penalties
+
+
+### 2️⃣ Teams:
+- team_id (PK)
+- name
+- country
+
+**Relationships:**
+- (1-n) with Drivers
+- (1-n) with Results
+- (1-n) with Fastest_Laps
+- (1-n) with Qualifying
+- (1-n) with Penalties
+- (m-n) with Engineers through Engieering Teams
+- (m-n) with Sponsors through Team_Sponsors
+
+### 3️⃣ Seasons:
+
+season_id (PK)
+year
+Relationships:
+(1-n) with Races
+(1-n) with Team_Constructors
+(1-n) with Team_Sponsors
+Circuits (Additional, not directly related in the simplified design):
+
+circuit_id (PK)
+name
+country
+length
+Races:
+
+race_id (PK)
+name
+date
+location
+season_id (FK)
+Relationships:
+(1-n) with Results
+(1-n) with Fastest_Laps
+(1-n) with Qualifying
+(1-n) with Penalties
+Results:
+
+result_id (PK)
+race_id (FK)
+driver_id (FK)
+team_id (FK)
+position
+points
+Relationships:
+(n-1) with Races
+(n-1) with Drivers
+(n-1) with Teams
+Fastest_Laps:
+
+fastest_lap_id (PK)
+race_id (FK)
+driver_id (FK)
+time
+Relationships:
+(n-1) with Races
+(n-1) with Drivers
+Qualifying:
+
+qualifying_id (PK)
+race_id (FK)
+driver_id (FK)
+position
+Relationships:
+(n-1) with Races
+(n-1) with Drivers
+Penalties:
+
+penalty_id (PK)
+driver_id (FK)
+race_id (FK)
+description
+time_penalty
+Relationships:
+(n-1) with Drivers
+(n-1) with Races
+Constructors:
+
+constructor_id (PK)
+name
+country
+Relationships:
+(1-n) with Team_Constructors
+Team_Constructors:
+
+team_constructor_id (PK)
+team_id (FK)
+constructor_id (FK)
+season_id (FK)
+Relationships:
+(n-1) with Constructors
+(n-1) with Teams
+(n-1) with Seasons
+Sponsors:
+
+sponsor_id (PK)
+name
+country
+Relationships:
+(1-n) with Team_Sponsors
+Team_Sponsors:
+
+team_sponsor_id (PK)
+team_id (FK)
+sponsor_id (FK)
+season_id (FK)
+Relationships:
+(n-1) with Sponsors
+(n-1) with Teams
+(n-1) with Seasons

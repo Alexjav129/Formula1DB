@@ -179,7 +179,9 @@
 - (n-1) with Seasons
 
 </details>
+<br>
 
+![Formula1DB drawio](https://github.com/Alexjav129/Formula1DB-Bautista/assets/78135846/e934c854-9c92-48ca-8c95-25459a693c26)
 
 
 

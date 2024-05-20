@@ -64,7 +64,7 @@
 **Relationships:**
 - (1-n) with Drivers
 - (1-n) with Results
-- (m-n) with Engineers through Engieering Teams
+- (m-n) with Engineers through Engineering Teams
 - (m-n) with Sponsors through Team_Sponsors
 
 ### 3️⃣ Seasons:

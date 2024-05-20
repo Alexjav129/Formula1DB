@@ -29,9 +29,11 @@
 - In summary, this relational database for Formula 1, implemented using MySQL, offers a solution for comprehensive management of information for one of the most complex and exciting sports competitions in the world. 🏁
 
 <br>
+<br>
+<br>
 
 
-# E-R Diagram
+# E-R Diagram 🧩
 
 
 <details>
@@ -172,10 +174,12 @@ Relationships:
 
 </details>
 
+<br><br><br>
 
+# Spanish Version 
 
 <details>
-<summary>Spanish Version</summary>
+<summary>Esp</summary>
 
 # Formula1 DB 🏎️ 🧩
 

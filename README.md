@@ -64,9 +64,6 @@
 **Relationships:**
 - (1-n) with Drivers
 - (1-n) with Results
-- (1-n) with Fastest_Laps
-- (1-n) with Qualifying
-- (1-n) with Penalties
 - (m-n) with Engineers through Engieering Teams
 - (m-n) with Sponsors through Team_Sponsors
 

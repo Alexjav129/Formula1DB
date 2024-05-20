@@ -28,3 +28,7 @@
 
 <br>
 - En resumen, esta base de datos relacional sobre la Fórmula 1, implementada utilizando MySQL, ofrece una solución para la gestión integral de información de una de las competiciones deportivas más complejas y emocionantes del mundo. 🏁
+
+<br>
+
+# Diagrama E-R

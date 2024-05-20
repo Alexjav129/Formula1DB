@@ -33,7 +33,11 @@
 
 # E-R Diagram
 
-Tables and Relationships
+
+<details>
+<summary>Tables and Relationships</summary>
+
+
 ### 1️⃣ Drivers:
 - driver_id (PK)
 - first_name
@@ -164,3 +168,7 @@ Relationships:
 (n-1) with Sponsors
 (n-1) with Teams
 (n-1) with Seasons
+
+
+</details>
+

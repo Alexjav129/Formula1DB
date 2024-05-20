@@ -49,11 +49,11 @@
 - team_id (FK)
 
 **Relationships:**
-- (1-n) with Teams
-- (1-n) with Results
-- (1-n) with Fastest_Laps
-- (1-n) with Qualifying
-- (1-n) with Penalties
+1. (1-n) with Teams
+2. (1-n) with Results
+3. (1-n) with Fastest_Laps
+4. (1-n) with Qualifying
+5. (1-n) with Penalties
 
 
 ### 2️⃣ Teams:

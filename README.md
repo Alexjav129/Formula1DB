@@ -184,6 +184,117 @@
 ![Formula1DB drawio](https://github.com/Alexjav129/Formula1DB-Bautista/assets/78135846/e934c854-9c92-48ca-8c95-25459a693c26)
 
 
+# Formula 1 Database 2da Pre Entrega
+
+# Views (4) 🏅
+
+### VIEW 1: Team and Driver Info
+- **Objective:** Provides detailed information about teams and their associated drivers.
+- **Tables:** Teams (teams) and Drivers (drivers).
+- **Description:** This view combines data from the teams table and the drivers table to show the names, nationalities, and birthdates of each driver along with their respective team's name and country.
+
+### VIEW 2: Race Results with Driver and Team Information
+- **Objective:** Offers comprehensive race result details including driver and team information.
+- **Tables:** Races (races), Results (results), Drivers (drivers), Teams (teams), Seasons (seasons).
+- **Description:** This view integrates data from multiple tables to display race names, dates, locations, along with driver names, team names, and specific race results such as positions and points scored.
+
+### VIEW 3: Teams and Their Engineers
+- **Objective:** Presents teams alongside their engineering staff for a given season.
+- **Tables:** Teams (teams), Engineering Team (engineering_team), Engineers (engineers), Seasons (seasons).
+- **Description:** This view combines information from the teams, engineering_team, engineers, and seasons tables to show each team's name and country alongside the names and countries of their engineers for a specified season.
+
+### VIEW 4: Teams and Their Sponsors
+- **Objective:** Displays teams and their sponsor relationships for a particular season.
+- **Tables:** Teams (teams), Team Sponsors (team_sponsors), Sponsors (sponsors), Seasons (seasons).
+- **Description:** This view utilizes data from the teams, team_sponsors, sponsors, and seasons tables to showcase each team's name and country alongside the names and countries of their sponsors for a given season.
+
+These views provide consolidated information based on the relationships between teams, drivers, engineers, sponsors, races, and results within the database structure.
+
+<br><br>
+
+# Functions (2) 🏅
+
+### Function 1: Calculate Points Per Race
+- **Objective:** This function calculates the points awarded based on the finishing position in a race, adhering to Formula 1 championship points rules.
+- **Manipulated Data/Tables:** No specific tables are manipulated; it takes an integer parameter (position) and computes points based on conditional logic.
+- **Description:** The function `calculate_points_per_race` determines the points awarded to drivers based on their finishing position in a race. It uses a series of conditional statements (IF and ELSE IF) to assign points according to Formula 1 scoring rules. Positions from 1st to 10th are assigned specific points (25, 18, 15, 12, 10, 8, 6, 4, 2, and 1 respectively), while positions below 10th receive no points.
+
+### Function 2: Determine Champion Status
+- **Objective:** This function determines whether a given championship count qualifies an individual as a champion or not.
+- **Manipulated Data/Tables:** No specific tables are manipulated; it takes an integer parameter (championship) and returns a status based on its value.
+- **Description:** The function `determine_champion_status` evaluates whether the input championship count qualifies an individual as a champion. It returns a string indicating "Champion" if the input is greater than zero, otherwise "Not a Champion". This function operates in a NO SQL context, meaning it doesn't interact with database tables but rather performs a simple conditional check and returns a result based on the input parameter.
+
+These functions are designed to encapsulate specific logic for calculating race points and determining championship status based on provided inputs, enhancing the database's capability to handle Formula 1-related calculations and status determinations.
+
+<br><br>
+
+# Stored Procedures (2) 🏅
+
+### Stored Procedure 1: Get Number of Races per Season
+- **Objective/Benefit:** This stored procedure is designed to provide a summary of the number of races held each season. It aggregates the count of races per year, offering a quick overview of the racing activity across different seasons.
+- **Interacting Tables:**
+  - `seasons`
+  - `races`
+- **Description:** The stored procedure `sp_get_races_per_season` retrieves the total number of races for each season. It performs a LEFT JOIN between the `seasons` and `races` tables on the `season_id` column. The procedure then groups the results by the `year` column from the `seasons` table and counts the number of races (`race_id`) for each year. This information is useful for understanding the distribution of races over different seasons and can help in analyzing the growth or changes in the racing calendar.
+
+```SQL
+CALL sp_get_races_per_season();
+```
+
+
+### Stored Procedure 2: Get Race Results for a Driver
+- **Objective/Benefit:** This stored procedure provides detailed race results for a specific driver, allowing for the analysis of a driver's performance over time. It fetches and organizes the race results in a clear and concise manner.
+- **Interacting Tables:**
+  - `results`
+  - `races`
+  - `drivers`
+- **Description:** The stored procedure `sp_get_driver_results` retrieves all race results for a specified driver. It accepts a driver ID as an input parameter and joins the `results`, `races`, and `drivers` tables to collect relevant data. The procedure selects the race name, race date, the driver's finishing position, and the points earned in each race. The results are ordered by the race date in descending order, providing a chronological overview of the driver's performance. This procedure is beneficial for analyzing a driver's historical performance and can be used for reporting and statistical analysis.
+
+```SQL
+CALL sp_get_driver_results(1);
+CALL sp_get_driver_results(10);
+CALL sp_get_driver_results(20);
+```
+
+These stored procedures enhance the functionality of the Formula 1 database by providing essential summary and detailed data retrieval capabilities, which are crucial for performance analysis and reporting.
+
+<br><br>
+
+# Triggers (2) 🏅
+
+### Trigger 1: Audit Races Trigger
+- **Objective/Benefit:** This trigger ensures that any insertion into the `races` table is logged in the `racesTriggerAudit` table. This is crucial for maintaining an audit trail of changes, providing a historical record of all additions to the `races` table.
+- **Interacting Tables:**
+  - `races`
+  - `racesTriggerAudit`
+- **Description:** The `afterInsertRacesTrigger` is an AFTER INSERT trigger that activates whenever a new record is inserted into the `races` table. When this occurs, the trigger copies the details of the new race (including `race_id`, `name`, `date`, `location`, and `season_id`) into the `racesTriggerAudit` table. Additionally, it logs the type of DML operation ('INSERT'), the current date and time (`ChangeDate`), and the user who made the change (`UserChange`). This ensures that all new race entries are recorded for audit purposes.
+
+```SQL
+-- Insert data into Races to trigger the audit
+INSERT INTO races (name, date, location, season_id) VALUES
+('British Grand Prix2023', '2023-10-16', 'Silverstone', 4),
+('Monaco Grand Prix2023', '2023-11-28', 'Monaco', 4),
+('Italian Grand Prix2023', '2023-12-03', 'Monza', 4);
+```
+
+### Trigger 2: Audit Results Trigger
+- **Objective/Benefit:** This trigger ensures that any insertion into the `results` table is logged in the `resultsTriggerAudit` table. This is essential for tracking all changes made to the race results, thereby maintaining a comprehensive audit trail.
+- **Interacting Tables:**
+  - `results`
+  - `resultsTriggerAudit`
+- **Description:** The `afterInsertResultsTrigger` is an AFTER INSERT trigger that activates whenever a new record is inserted into the `results` table. When triggered, it copies the details of the new result (including `result_id`, `race_id`, `driver_id`, `team_id`, `position`, and `points`) into the `resultsTriggerAudit` table. Additionally, it logs the type of DML operation ('INSERT'), the current date and time (`ChangeDate`), and the user who made the change (`UserChange`). This trigger ensures that all new results entries are recorded for audit purposes, providing a detailed log of all race results additions.
+
+```SQL
+Insert data into Results to trigger the audit
+INSERT INTO results (race_id, driver_id, team_id, position, points) VALUES
+(1, 1, 1, 1, 25),
+(1, 2, 1, 2, 18),
+(2, 3, 2, 1, 25),
+(2, 4, 2, 2, 18),
+(3, 5, 3, 1, 25);
+```
+
+These triggers help maintain the integrity and accountability of the data within the Formula 1 database by providing automatic logging of significant table changes.
 
 
 <br><br><br>

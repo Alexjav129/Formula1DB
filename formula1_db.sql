@@ -3,7 +3,8 @@ CREATE DATABASE formula1_db;
 show databases;
 USE formula1_db;
 
--- T A B L E S
+-- ---------------------------------------------------------------------------------------------
+-- T A B L E S ✅
 -- TABLE 1: Teams
 DROP TABLE IF EXISTS teams;
 CREATE TABLE teams(
@@ -141,7 +142,8 @@ CREATE TABLE team_sponsors(
     FOREIGN KEY (season_id) REFERENCES seasons(season_id)
 );
 
--- I N S E R T - ( D A T A )
+-- ---------------------------------------------------------------------------------------------
+-- I N S E R T - ( D A T A ) ✅
 -- Insert data into Teams
 INSERT INTO teams (name, country) VALUES
 ('Mercedes-AMG Petronas Formula One Team', 'Germany'),
@@ -503,7 +505,8 @@ INSERT INTO team_sponsors (team_id, sponsor_id, season_id) VALUES
 
 select * from team_sponsors;
 
--- V I E W S
+-- ---------------------------------------------------------------------------------------------
+-- V I E W S ✅
 -- VIEW 1: Team and Driver Info
 CREATE OR REPLACE VIEW team_drivers AS
 SELECT 
@@ -585,7 +588,8 @@ JOIN
 
 SELECT * FROM team_sponsorsView;
 
--- F U N C T I O N S
+-- ---------------------------------------------------------------------------------------------
+-- F U N C T I O N S ✅
 -- Function 1 Calculate Points Per Race
 USE formula1_db;
 DROP FUNCTION IF EXISTS calculate_points_per_race;
@@ -660,8 +664,8 @@ SELECT determine_champion_status(0) AS champion_status;
 SELECT determine_champion_status(1) AS champion_status;
 SELECT determine_champion_status(7) AS champion_status;
 
-
--- S t o r e d - P r o c e d u r e s
+-- ---------------------------------------------------------------------------------------------
+-- S t o r e d - P r o c e d u r e s ✅
 -- Stored Procedure 1: Get Number of Races per Season
 USE formula1_db;
 DROP PROCEDURE IF EXISTS sp_get_races_per_season;
@@ -694,3 +698,46 @@ END $$
 call sp_get_driver_results(1);
 call sp_get_driver_results(10);
 call sp_get_driver_results(20);
+
+-- ---------------------------------------------------------------------------------------------
+-- T r i g g e r s ✅
+-- Create Races (Audit Table)
+DROP TABLE IF EXISTS racesTriggerAudit;
+CREATE TABLE racesTriggerAudit(
+	race_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    location VARCHAR(100) NOT NULL,
+    season_id INT,
+    DML varchar(10),
+    ChangeDate datetime,
+    UserChange varchar(30),
+    FOREIGN KEY (season_id) REFERENCES seasons(season_id)
+);
+
+-- Trigger 1: Audit Races Trigger
+DROP TRIGGER IF EXISTS despInsertRacesTrigger;
+CREATE TRIGGER despInsertRacesTrigger
+	AFTER INSERT ON races
+    FOR EACH ROW
+    INSERT INTO racesTriggerAudit
+    SET race_id = NEW.race_id,
+		name = NEW.name,
+        date = new.date,
+        location = new.location,
+        season_id = new.season_id,
+        DML = 'INSERT',
+        ChangeDate = NOW(),
+        UserChange = USER();
+
+select * from races;
+select * from racesTriggerAudit;
+
+-- Insert data into Races
+INSERT INTO races (name, date, location, season_id) VALUES
+('British Grand Prix2023', '2023-10-16', 'Silverstone', 4),
+('Monaco Grand Prix2023', '2023-11-28', 'Monaco', 4),
+('Italian Grand Prix2023', '2023-12-03', 'Monza', 4);
+
+
+

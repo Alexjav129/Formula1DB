@@ -3,6 +3,7 @@ CREATE DATABASE formula1_db;
 show databases;
 USE formula1_db;
 
+-- T A B L E S
 -- TABLE 1: Teams
 DROP TABLE IF EXISTS teams;
 CREATE TABLE teams(
@@ -140,6 +141,7 @@ CREATE TABLE team_sponsors(
     FOREIGN KEY (season_id) REFERENCES seasons(season_id)
 );
 
+-- I N S E R T - ( D A T A )
 -- Insert data into Teams
 INSERT INTO teams (name, country) VALUES
 ('Mercedes-AMG Petronas Formula One Team', 'Germany'),
@@ -501,3 +503,84 @@ INSERT INTO team_sponsors (team_id, sponsor_id, season_id) VALUES
 
 select * from team_sponsors;
 
+-- V I E W S
+-- VIEW 1: Team and Driver Info
+CREATE OR REPLACE VIEW team_drivers AS
+SELECT 
+	t.name AS team_name,
+    t.country AS team_country,
+    d.first_name AS drive_first_name,
+    d.last_name AS driver_last_name,
+    d.nationality AS driver_nationality,
+    d.date_of_birth AS driver_date_of_birth
+FROM
+	teams t
+JOIN
+	drivers d ON t.team_id = d.team_id;
+
+select * from team_drivers;
+
+
+-- VIEW 2: Race Results with Driver and Team Information
+CREATE OR REPLACE VIEW race_results AS
+SELECT 
+	r.name AS race_name,
+    r.date AS race_date,
+    r.location AS race_location,
+    s.year AS season_year,
+    d.first_name AS driver_first_name,
+    d.last_name AS driver_last_name,
+    t.name AS team_name,
+    res.position,
+    res.points
+FROM 
+	races r
+JOIN
+	results res ON r.race_id = res.race_id
+JOIN 
+	drivers d ON res.driver_id = d.driver_id
+JOIN 
+	teams t ON res.team_id = t.team_id
+JOIN 
+	seasons s ON r.season_id = s.season_id;
+
+select * from race_results;
+
+
+-- View 3: Teams and Their Engineers
+CREATE OR REPLACE VIEW team_engineers AS
+SELECT 
+	t.name AS team_name,
+    t.country AS team_country,
+    e.name AS engineer_name,
+    e.country AS engineer_country,
+    s.year AS season_year
+FROM
+	teams t
+JOIN
+	engineering_team et ON t.team_id = et.team_id
+JOIN 
+	engineers e ON et.engineer_id = e.engineer_id
+JOIN
+	seasons s ON et.season_id = s.season_id;
+    
+select * from team_engineers;
+
+-- View 4: Teams and Their Sponsors
+CREATE OR REPLACE VIEW team_sponsorsView AS
+SELECT 
+    t.name AS team_name,
+    t.country AS team_country,
+    s.name AS sponsor_name,
+    s.country AS sponsor_country,
+    se.year AS season_year
+FROM 
+    teams t
+JOIN 
+    team_sponsors ts ON t.team_id = ts.team_id
+JOIN 
+    sponsors s ON ts.sponsor_id = s.sponsor_id
+JOIN 
+    seasons se ON ts.season_id = se.season_id;
+
+SELECT * FROM team_sponsorsView;

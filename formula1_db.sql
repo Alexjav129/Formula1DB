@@ -25,8 +25,6 @@ CREATE TABLE drivers(
     FOREIGN KEY (team_id) REFERENCES teams(team_id)
 );
 
-
-
 -- TABLE 3: Seasons
 DROP TABLE IF EXISTS seasons;
 CREATE TABLE seasons(
@@ -701,7 +699,7 @@ call sp_get_driver_results(20);
 
 -- ---------------------------------------------------------------------------------------------
 -- T r i g g e r s ✅
--- Create Races (Audit Table)
+-- Create Races (Audit Table 1)
 DROP TABLE IF EXISTS racesTriggerAudit;
 CREATE TABLE racesTriggerAudit(
 	race_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -716,8 +714,8 @@ CREATE TABLE racesTriggerAudit(
 );
 
 -- Trigger 1: Audit Races Trigger
-DROP TRIGGER IF EXISTS despInsertRacesTrigger;
-CREATE TRIGGER despInsertRacesTrigger
+DROP TRIGGER IF EXISTS afterInsertRacesTrigger;
+CREATE TRIGGER afterInsertRacesTrigger
 	AFTER INSERT ON races
     FOR EACH ROW
     INSERT INTO racesTriggerAudit
@@ -740,4 +738,46 @@ INSERT INTO races (name, date, location, season_id) VALUES
 ('Italian Grand Prix2023', '2023-12-03', 'Monza', 4);
 
 
+-- Create Results (Audit Table 2)
+DROP TABLE IF EXISTS resultsTriggerAudit;
+CREATE TABLE resultsTriggerAudit(
+	result_id INT PRIMARY KEY AUTO_INCREMENT,
+    race_id INT,
+    driver_id INT,
+    team_id INT,
+    position INT NOT NULL,
+    points INT NOT NULL,
+    DML varchar(10),
+    ChangeDate datetime,
+    UserChange varchar(30),
+    FOREIGN KEY (race_id) REFERENCES races(race_id),
+    FOREIGN KEY (driver_id) REFERENCES drivers(driver_id),
+    FOREIGN KEY (team_id) REFERENCES teams(team_id)
+);
 
+-- Trigger 2: Audit Results Trigger
+DROP TRIGGER IF EXISTS afterInsertResultsTrigger;
+CREATE TRIGGER afterInsertResultsTrigger
+	AFTER INSERT ON results
+    FOR EACH ROW
+    INSERT INTO resultsTriggerAudit
+    SET result_id = NEW.result_id,
+		race_id = NEW.race_id,
+        driver_id = NEW.driver_id,
+        team_id = NEW.team_id,
+        position = NEW.position,
+        points = NEW.points,
+        DML = 'INSERT',
+        ChangeDate = NOW(),
+        UserChange = USER();
+
+select * from results;
+select * from resultsTriggerAudit;
+
+-- Insert data into Results
+INSERT INTO results (race_id, driver_id, team_id, position, points) VALUES
+(1, 1, 1, 1, 25),
+(1, 2, 1, 2, 18),
+(2, 3, 2, 1, 25),
+(2, 4, 2, 2, 18),
+(3, 5, 3, 1, 25);

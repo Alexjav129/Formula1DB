@@ -781,3 +781,4 @@ INSERT INTO results (race_id, driver_id, team_id, position, points) VALUES
 (2, 3, 2, 1, 25),
 (2, 4, 2, 2, 18),
 (3, 5, 3, 1, 25);
+

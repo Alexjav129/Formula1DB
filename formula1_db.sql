@@ -584,3 +584,79 @@ JOIN
     seasons se ON ts.season_id = se.season_id;
 
 SELECT * FROM team_sponsorsView;
+
+-- F U N C T I O N S
+-- Function 1 Calculate Points Per Race
+USE formula1_db;
+DROP FUNCTION IF EXISTS calculate_points_per_race;
+
+DELIMITER $$
+CREATE FUNCTION `calculate_points_per_race` (position INT) RETURNS INT 
+DETERMINISTIC
+BEGIN 
+	DECLARE points INT;
+    
+     IF position = 1 THEN
+        SET points = 25;
+    ELSEIF position = 2 THEN
+        SET points = 18;
+    ELSEIF position = 3 THEN
+        SET points = 15;
+    ELSEIF position = 4 THEN
+        SET points = 12;
+    ELSEIF position = 5 THEN
+        SET points = 10;
+    ELSEIF position = 6 THEN
+        SET points = 8;
+    ELSEIF position = 7 THEN
+        SET points = 6;
+    ELSEIF position = 8 THEN
+        SET points = 4;
+    ELSEIF position = 9 THEN
+        SET points = 2;
+    ELSEIF position = 10 THEN
+        SET points = 1;
+    ELSE
+        SET points = 0; -- No points for positions below 10th
+    END IF;
+    
+    RETURN points;
+END $$
+DELIMITER ;
+
+-- Query to get points for position 1
+SELECT calculate_points_per_race(1) AS points_for_position_1;
+
+-- Query to get points for position 5
+SELECT calculate_points_per_race(5) AS points_for_position_5;
+
+-- Query to get points for position 10
+SELECT calculate_points_per_race(10) AS points_for_position_10;
+
+-- Query to get points for position 15 (outside the top 10)
+SELECT calculate_points_per_race(15) AS points_for_position_15;
+
+
+-- Function 2: Determine Champion Status
+USE formula1_db;
+DROP FUNCTION IF EXISTS determine_champion_status;
+DELIMITER $$
+CREATE FUNCTION `determine_champion_status` (championship INT) RETURNS VARCHAR(20)
+NO SQL
+BEGIN 
+	DECLARE status VARCHAR(20);
+    
+    IF championship > 0 THEN
+		SET status = 'Champion';
+	ELSE 
+		SET status = 'Not a Champion';
+	END IF;
+    
+    RETURN status;
+	
+END $$
+
+SELECT determine_champion_status(0) AS champion_status;
+SELECT determine_champion_status(1) AS champion_status;
+SELECT determine_champion_status(7) AS champion_status;
+

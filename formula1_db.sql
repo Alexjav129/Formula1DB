@@ -660,3 +660,37 @@ SELECT determine_champion_status(0) AS champion_status;
 SELECT determine_champion_status(1) AS champion_status;
 SELECT determine_champion_status(7) AS champion_status;
 
+
+-- S t o r e d - P r o c e d u r e s
+-- Stored Procedure 1: Get Number of Races per Season
+USE formula1_db;
+DROP PROCEDURE IF EXISTS sp_get_races_per_season;
+DELIMITER $$
+CREATE PROCEDURE sp_get_races_per_season()
+BEGIN
+	SELECT seasons.year AS season_year, COUNT(races.race_id) AS number_of_races
+    FROM seasons
+    LEFT JOIN races ON seasons.season_id = races.season_id
+    GROUP BY seasons.year;
+END $$
+
+call sp_get_races_per_season();
+
+
+-- Stored Procedure 2: Get Race Results for a Driver
+USE formula1_db;
+DROP PROCEDURE IF EXISTS sp_get_driver_results;
+DELIMITER $$
+CREATE PROCEDURE sp_get_driver_results (IN driver_id INT)
+BEGIN
+	SELECT races.name AS race_name, races.date AS race_date, results.position AS race_position, results.points AS race_points
+    FROM results
+    INNER JOIN races ON results.race_id = races.race_id
+    WHERE results.driver_id = driver_id
+    ORDER BY races.date DESC;
+END $$
+
+-- Results per Driver id
+call sp_get_driver_results(1);
+call sp_get_driver_results(10);
+call sp_get_driver_results(20);

@@ -57,7 +57,8 @@ intermediate tables.
 - **Circuits** (optional) store information about race locations but are not directly
 linked in this simplified design.
 - **Results**, **Fastest Laps**, **Qualifying**, and **Penalties** provide detailed race
-performance data.
+performance data. <br>
+
 This diagram helps in understanding how various components of the Formula 1 data are interconnected, facilitating efficient data management and retrieval.
 
 # E-R Diagram 🧩

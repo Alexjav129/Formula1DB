@@ -2,7 +2,7 @@
 
 # Introduction
 - Formula 1, also known as F1, is the most prestigious motorsport competition in the world. Since its inception in 1950, it has grown exponentially in both popularity and technical complexity. With teams from around the globe competing on various international tracks, efficient data management becomes crucial. This relational database project using MySQL aims to organize, store, and analyze data from Formula 1 seasons, making it easier to access and understand the rich and diverse information.
-
+<br>
 
 # Project Description
 

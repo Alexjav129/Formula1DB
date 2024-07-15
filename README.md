@@ -24,9 +24,11 @@
 
 ### 4. Results and Statistics:
 - Race results are recorded, including final positions of drivers, points earned, fastest laps, and any penalties received. This enables detailed tracking of driver and team performance throughout the season.
+<br>
 
 # Problem Statement
 - The world of Formula 1 involves a vast amount of data, including race results, team compositions, driver statistics, engineering details, and sponsor information. This data is often scattered across different sources, making it challenging to compile and analyze comprehensively. A centralized and well-structured database is necessary to manage this information effectively, enabling fans, journalists, and analysts to retrieve and analyze data efficiently.
+<br>
 
 # Business Model
 The database is designed to serve various stakeholders in the Formula 1 community:
@@ -34,14 +36,14 @@ The database is designed to serve various stakeholders in the Formula 1 communit
 - **Journalists:** Offer a reliable source for detailed race results, driver performances, and team compositions to support their reporting.
 - **Analysts:** Enable in-depth analysis of performance trends, team dynamics, and race outcomes through structured data queries and visualizations.
 - **Teams and Sponsors:** Provide a comprehensive overview of team performances, sponsor relationships, and engineering collaborations for strategic decision-making.
-
+<br>
 
 # Technology Used 💻
 - **SQL:** (Structured Query Language): Language used to manage and manipulate the database, allowing for creation, updating, querying, and deletion of data.
 - **MySQL:** Relational database management system (RDBMS) chosen to implement this project due to its scalability and widespread adoption in the industry.
 - **Tableau:** Used for data visualization, allowing for the creation of comprehensive and interactive dashboards to present insights derived from the database.
-
 <br>
+
 - In summary, this relational database for Formula 1, implemented using MySQL, offers a solution for comprehensive management of information for one of the most complex and exciting sports competitions in the world. 🏁
 
 <br>

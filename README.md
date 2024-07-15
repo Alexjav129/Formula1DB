@@ -51,9 +51,6 @@ The database is designed to serve various stakeholders in the Formula 1 communit
 <br>
 
 # E-R Diagram Description
-
-
-# E-R Diagram 🧩
 The E-R (Entity-Relationship) Diagram is a visual representation of the database structure, showcasing the relationships between different entities. In this database:
 - **Drivers** are linked to **Teams** and **Races** through **Results.**
 - **Teams** have associations with **Drivers**, **Engineers**, and **Sponsors** through
@@ -64,6 +61,8 @@ linked in this simplified design.
 - **Results**, **Fastest Laps**, **Qualifying**, and **Penalties** provide detailed race
 performance data.
 This diagram helps in understanding how various components of the Formula 1 data are interconnected, facilitating efficient data management and retrieval.
+
+# E-R Diagram 🧩
 
 <details>
 <summary>Tables and Relationships</summary>

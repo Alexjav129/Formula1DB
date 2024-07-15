@@ -66,8 +66,18 @@ This diagram helps in understanding how various components of the Formula 1 data
 <details>
 <summary>Tables and Relationships</summary>
 
+### 1️⃣ Teams:
+- team_id (PK)
+- name
+- country
 
-### 1️⃣ Drivers:
+**Relationships:**
+- (1-n) with Drivers
+- (1-n) with Results
+- (m-n) with Engineers through Engineering Teams
+- (m-n) with Sponsors through Team_Sponsors
+
+### 2️⃣ Drivers:
 - driver_id (PK)
 - first_name
 - last_name
@@ -81,18 +91,6 @@ This diagram helps in understanding how various components of the Formula 1 data
 - (1-n) with Fastest_Laps
 - (1-n) with Qualifying
 - (1-n) with Penalties
-
-
-### 2️⃣ Teams:
-- team_id (PK)
-- name
-- country
-
-**Relationships:**
-- (1-n) with Drivers
-- (1-n) with Results
-- (m-n) with Engineers through Engineering Teams
-- (m-n) with Sponsors through Team_Sponsors
 
 ### 3️⃣ Seasons:
 - season_id (PK)

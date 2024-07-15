@@ -45,8 +45,6 @@ The database is designed to serve various stakeholders in the Formula 1 communit
 <br>
 
 - In summary, this relational database for Formula 1, implemented using MySQL, offers a solution for comprehensive management of information for one of the most complex and exciting sports competitions in the world. 🏁
-
-<br>
 <br>
 <br>
 
